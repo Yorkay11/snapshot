@@ -17,8 +17,8 @@ const quicksand = Quicksand({
 })
 
 export const metadata: Metadata = {
-  title: "Ultra-Times Snapshots",
-  description: "Plateforme automatisée de snapshots Web3",
+  title: "UltraTimes Snapshots",
+  description: "Web3 Snapshots Platform",
 }
 
 export default function RootLayout({
@@ -30,8 +30,6 @@ export default function RootLayout({
     <html lang="fr">
       <body className={`${cabin.variable} ${quicksand.variable} font-quicksand bg-foreground min-h-screen`}>
         <Loading />
-        <Navbar />
-        <Exchange />
         {children}
       </body>
     </html>
