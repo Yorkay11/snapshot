@@ -55,7 +55,6 @@ const mockSnapshots: Snapshot[] = [
     nextRun: '2024-03-20T15:00:00Z',
     cost: 12,
   },
-  // Add more mock data as needed
 ];
 
 export function SnapshotList() {
@@ -64,120 +63,125 @@ export function SnapshotList() {
   const getStatusColor = (status: Snapshot['status']) => {
     switch (status) {
       case 'running':
-        return 'bg-green-500';
+        return 'bg-[#AC46E7]';
       case 'paused':
-        return 'bg-yellow-500';
+        return 'bg-[#8757B2]';
       case 'completed':
-        return 'bg-blue-500';
+        return 'bg-[#622C6C]';
       case 'failed':
-        return 'bg-red-500';
+        return 'bg-[#28274A]';
       default:
-        return 'bg-gray-500';
+        return 'bg-[#28274A]';
     }
   };
 
   const handleAction = (id: string, action: string) => {
-    // TODO: Implement action handlers
     console.log(`Action ${action} on snapshot ${id}`);
   };
 
   return (
-    <Card>
+    <Card className="bg-primary/20 border-none mt-20 shadow-sm shadow-secondary">
       <CardHeader>
-        <CardTitle>Snapshots</CardTitle>
+        <CardTitle className="text-white">Snapshots</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead>Nom</TableHead>
-              <TableHead>Collection</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Statut</TableHead>
-              <TableHead>Progression</TableHead>
-              <TableHead>Prochain Run</TableHead>
-              <TableHead>Coût (UOS)</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+            <TableRow className="border-b border-[#28274A] hover:bg-[#28274A]/50">
+              <TableHead className="text-white">Name</TableHead>
+              <TableHead className="text-white">Collection</TableHead>
+              <TableHead className="text-white">Type</TableHead>
+              <TableHead className="text-white">Status</TableHead>
+              <TableHead className="text-white">Progress</TableHead>
+              <TableHead className="text-white">Next Run</TableHead>
+              <TableHead className="text-white">Cost (UOS)</TableHead>
+              <TableHead className="text-right text-white">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {snapshots.map((snapshot) => (
-              <TableRow key={snapshot.id}>
-                <TableCell className="font-medium">{snapshot.name}</TableCell>
-                <TableCell>{snapshot.collection}</TableCell>
-                <TableCell>
+              <TableRow key={snapshot.id} className="border-b border-[#28274A] hover:bg-[#28274A]/50">
+                <TableCell className="font-medium text-white">{snapshot.name}</TableCell>
+                <TableCell className="text-white">{snapshot.collection}</TableCell>
+                <TableCell className="text-white">
                   {snapshot.type === 'full'
-                    ? 'Collection Entière'
+                    ? 'Full Collection'
                     : snapshot.type === 'specific'
-                    ? 'Tokens Spécifiques'
-                    : 'Par Critères'}
+                    ? 'Specific Tokens'
+                    : 'By Criteria'}
                 </TableCell>
                 <TableCell>
                   <Badge
-                    className={`${getStatusColor(snapshot.status)} text-white`}
+                    className={`${getStatusColor(snapshot.status)} text-white shadow-[0_0_10px_rgba(172,70,231,0.3)]`}
                   >
                     {snapshot.status === 'running'
-                      ? 'En cours'
+                      ? 'Running'
                       : snapshot.status === 'paused'
-                      ? 'En pause'
+                      ? 'Paused'
                       : snapshot.status === 'completed'
-                      ? 'Terminé'
-                      : 'Échoué'}
+                      ? 'Completed'
+                      : 'Failed'}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="w-full bg-secondary rounded-full h-2">
+                  <div className="w-full bg-[#28274A] rounded-full h-2 shadow-[0_0_10px_rgba(98,44,108,0.3)] overflow-hidden">
                     <div
-                      className="bg-primary h-2 rounded-full"
+                      className="bg-[#AC46E7] h-2 rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(172,70,231,0.3)] relative"
                       style={{ width: `${snapshot.progress}%` }}
-                    />
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                    </div>
                   </div>
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-white">
                   {new Date(snapshot.nextRun).toLocaleString()}
                 </TableCell>
-                <TableCell>{snapshot.cost}</TableCell>
+                <TableCell className="text-white">{snapshot.cost}</TableCell>
                 <TableCell className="text-right">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <MoreVertical className="h-4 w-4" />
+                      <Button variant="ghost" className="h-8 w-8 p-0 hover:bg-[#28274A] shadow-[0_0_10px_rgba(98,44,108,0.3)]">
+                        <MoreVertical className="h-4 w-4 text-white" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
+                    <DropdownMenuContent align="end" className="bg-[#28274A] border-[#622C6C] shadow-[0_0_15px_rgba(172,70,231,0.3)]">
                       {snapshot.status === 'running' ? (
                         <DropdownMenuItem
                           onClick={() => handleAction(snapshot.id, 'pause')}
+                          className="text-white hover:bg-[#622C6C] focus:bg-[#622C6C]"
                         >
                           <Pause className="h-4 w-4 mr-2" />
-                          Mettre en pause
+                          Pause
                         </DropdownMenuItem>
                       ) : (
                         <DropdownMenuItem
                           onClick={() => handleAction(snapshot.id, 'resume')}
+                          className="text-white hover:bg-[#622C6C] focus:bg-[#622C6C]"
                         >
                           <Play className="h-4 w-4 mr-2" />
-                          Reprendre
+                          Resume
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuItem
                         onClick={() => handleAction(snapshot.id, 'edit')}
+                        className="text-white hover:bg-[#622C6C] focus:bg-[#622C6C]"
                       >
                         <Edit className="h-4 w-4 mr-2" />
-                        Modifier
+                        Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleAction(snapshot.id, 'download')}
+                        className="text-white hover:bg-[#622C6C] focus:bg-[#622C6C]"
                       >
                         <Download className="h-4 w-4 mr-2" />
-                        Télécharger
+                        Download
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleAction(snapshot.id, 'delete')}
-                        className="text-red-600"
+                        className="text-[#AC46E7] hover:bg-[#622C6C] focus:bg-[#622C6C]"
                       >
                         <Trash className="h-4 w-4 mr-2" />
-                        Supprimer
+                        Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

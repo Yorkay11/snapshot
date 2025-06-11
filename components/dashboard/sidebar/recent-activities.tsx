@@ -64,28 +64,24 @@ export function RecentActivities() {
   };
 
   return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">Activités Récentes</CardTitle>
+    <Card className='bg-primary/20 shadow-sm shadow-secondary'>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-md font-bold text-white">Recents activities</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-8">
         {mockActivities.map((activity) => (
-          <div key={activity.id} className="flex items-start space-x-3">
-            <div className="mt-1">{getStatusIcon(activity.status)}</div>
-            <div className="space-y-1">
-              <p className="text-sm leading-none">{activity.message}</p>
-              <div className="flex items-center space-x-2">
-                <Badge
-                  variant="secondary"
-                  className={`${getStatusColor(activity.status)} text-white`}
-                >
-                  {activity.type}
-                </Badge>
-                <span className="text-xs text-muted-foreground">
-                  {activity.timestamp}
-                </span>
+          <div key={activity.id} className="flex items-start justify-between">
+            <div className="flex items-start space-x-2">
+              <div className="mt-1 bg-highlight h-4 w-4 rounded-full" />
+              <div className="space-y-4">
+                <p className="text-sm leading-none text-white">UNIQ airdrop</p>
+                <p className="text-xs text-white/40">Cosmic warrior</p>
+                <p className="text-xs text-white">340 UNIQ sent</p>
               </div>
             </div>
+            <span className="text-xs text-muted-foreground">
+              {activity.timestamp}
+            </span>
           </div>
         ))}
       </CardContent>

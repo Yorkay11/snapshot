@@ -8,7 +8,7 @@ export default function SnapshotsPage() {
   return (
     <div className="container mx-auto py-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Snapshots</h1>
+        <h1 className="text-3xl font-bold text-white">Snapshots</h1>
         <Link href="/dashboard/snapshots/create">
           <Button>
             <Plus className="h-4 w-4 mr-2" />
@@ -17,13 +17,11 @@ export default function SnapshotsPage() {
         </Link>
       </div>
       
-      {/* Active Snapshots */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Snapshots Actifs</h2>
         <SnapshotList />
       </div>
 
-      {/* Snapshot History */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Historique</h2>
         <SnapshotHistory />

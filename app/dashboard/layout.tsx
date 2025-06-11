@@ -1,6 +1,7 @@
 import { Sidebar } from "@/components/dashboard/sidebar"
 import { RightSidebar } from "@/components/dashboard/right-sidebar"
-import { Navbar } from "@/components/dashboard/navbar"
+import { SnapshotList } from "@/components/dashboard/snapshot/snapshot-list"
+import { SnapshotHistory } from "@/components/dashboard/snapshot/snapshot-history"
 
 export default function DashboardLayout({
   children,
@@ -8,32 +9,33 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <div className="flex h-[calc(100vh-4rem)]">
-        {/* Left Sidebar */}
-        <div className="w-[400px] min-w-[300px] h-full p-4">
-          <div className="h-full rounded-xl border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 shadow-lg">
+    <div className="min-h-screen h-full">
+      <div className="flex h-[calc(100vh-4rem)] mb-10">
+        <div className="w-[400px] min-w-[300px] h-fit py-4 animate-in slide-in-from-left duration-1000">
+          <div className="h-full">
             <Sidebar />
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="flex-1 flex flex-col min-h-full">
-          <main className="flex-1 p-8">
+          <main className="flex-1 py-8">
             {children}
           </main>
         </div>
 
-        {/* Right Sidebar */}
-        <div className="w-[400px] min-w-[300px] h-full p-4">
-          <div className="h-full rounded-xl border bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60 shadow-lg">
+        <div className="w-[400px] min-w-[300px] h-fit p-4 animate-in slide-in-from-right duration-1000">
+          <div className="h-fit">
             <RightSidebar />
           </div>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      <div className="my-20 px-4 h-full">
+        {/* <SnapshotList /> */}
+        <SnapshotHistory />
+      </div>
+
+
       <div className="lg:hidden fixed bottom-0 left-0 right-0 border-t bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
         <div className="flex justify-around p-4">
           <button className="p-2">

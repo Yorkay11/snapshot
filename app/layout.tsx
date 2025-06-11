@@ -1,11 +1,20 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Cabin, Quicksand } from "next/font/google"
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { Navbar } from "@/components/navbar"
+import Exchange from "@/components/dashboard/exchange"
+import { Loading } from "@/components/loading"
 
-const inter = Inter({ subsets: ["latin"] })
+const cabin = Cabin({ 
+  subsets: ["latin"],
+  variable: '--font-cabin'
+})
+
+const quicksand = Quicksand({ 
+  subsets: ["latin"],
+  variable: '--font-quicksand'
+})
 
 export const metadata: Metadata = {
   title: "Ultra-Times Snapshots",
@@ -18,12 +27,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <Navbar />
-          {children}
-        </ThemeProvider>
+    <html lang="fr">
+      <body className={`${cabin.variable} ${quicksand.variable} font-quicksand bg-foreground min-h-screen`}>
+        <Loading />
+        <Navbar />
+        <Exchange />
+        {children}
       </body>
     </html>
   )
