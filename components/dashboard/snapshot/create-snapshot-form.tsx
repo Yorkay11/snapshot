@@ -131,7 +131,7 @@ export function CreateSnapshotForm() {
   );
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] p-6 space-y-6">
+    <div className="min-h-[calc(100vh-4rem)] space-y-6">
       <div className="flex items-center justify-between">
         <h2 className="text-3xl font-bold text-white">Create a Snapshot</h2>
         <div className="flex items-center space-x-2">

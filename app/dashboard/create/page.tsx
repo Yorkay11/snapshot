@@ -2,7 +2,7 @@ import { CreateSnapshotForm } from '@/components/dashboard/snapshot/create-snaps
 
 export default function CreateSnapshotPage() {
   return (
-    <div className="container py-6">
+    <div className="container">
       <div className="w-full">
         <CreateSnapshotForm />
       </div>

@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 export default function SnapshotsPage() {
   return (
-    <div className="container mx-auto py-6">
+    <div className="container mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold text-white">Snapshots</h1>
         <Link href="/dashboard/snapshots/create">

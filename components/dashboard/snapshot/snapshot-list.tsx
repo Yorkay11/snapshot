@@ -210,7 +210,7 @@ export function SnapshotList() {
                         <MoreVertical className="h-4 w-4 text-white" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-[#28274A] border-[#622C6C] shadow-[0_0_15px_rgba(172,70,231,0.3)]">
+                    <DropdownMenuContent align="end" className="bg-foreground border-[#622C6C] shadow-[0_0_15px_rgba(172,70,231,0.3)]">
                       {snapshot.status === 'running' ? (
                         <DropdownMenuItem
                           onClick={() => handleAction(snapshot.id, 'pause')}
