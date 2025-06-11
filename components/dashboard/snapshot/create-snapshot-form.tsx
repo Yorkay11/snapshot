@@ -566,7 +566,7 @@ export function CreateSnapshotForm() {
               type="button" 
               variant="outline" 
               onClick={handleBack}
-              className="border-[#622C6C] text-white hover:bg-[#622C6C]"
+              className="border-[#622C6C] bg-transparent text-white hover:bg-[#622C6C]"
             >
               Back
             </Button>

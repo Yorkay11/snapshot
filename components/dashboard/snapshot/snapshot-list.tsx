@@ -55,6 +55,72 @@ const mockSnapshots: Snapshot[] = [
     nextRun: '2024-03-20T15:00:00Z',
     cost: 12,
   },
+  {
+    id: '3',
+    name: 'Snapshot Collection B',
+    collection: 'Collection B',
+    type: 'specific',
+    status: 'paused',
+    progress: 30,
+    createdAt: '2024-03-19T15:00:00Z',
+    nextRun: '2024-03-20T15:00:00Z',
+    cost: 12,
+  },
+  {
+    id: '4',
+    name: 'Snapshot Collection B',
+    collection: 'Collection B',
+    type: 'specific',
+    status: 'paused',
+    progress: 30,
+    createdAt: '2024-03-19T15:00:00Z',
+    nextRun: '2024-03-20T15:00:00Z',
+    cost: 12,
+  },
+  {
+    id: '5',
+    name: 'Snapshot Collection B',
+    collection: 'Collection B',
+    type: 'specific',
+    status: 'paused',
+    progress: 30,
+    createdAt: '2024-03-19T15:00:00Z',
+    nextRun: '2024-03-20T15:00:00Z',
+    cost: 12,
+  },
+  {
+    id: '6',
+    name: 'Snapshot Collection B',
+    collection: 'Collection B',
+    type: 'specific',
+    status: 'paused',
+    progress: 30,
+    createdAt: '2024-03-19T15:00:00Z',
+    nextRun: '2024-03-20T15:00:00Z',
+    cost: 12,
+  },
+  {
+    id: '7',
+    name: 'Snapshot Collection B',
+    collection: 'Collection B',
+    type: 'specific',
+    status: 'paused',
+    progress: 30,
+    createdAt: '2024-03-19T15:00:00Z',
+    nextRun: '2024-03-20T15:00:00Z',
+    cost: 12,
+  },
+  {
+    id: '8',
+    name: 'Snapshot Collection B',
+    collection: 'Collection B',
+    type: 'specific',
+    status: 'paused',
+    progress: 30,
+    createdAt: '2024-03-19T15:00:00Z',
+    nextRun: '2024-03-20T15:00:00Z',
+    cost: 12,
+  },
 ];
 
 export function SnapshotList() {
@@ -82,7 +148,7 @@ export function SnapshotList() {
   return (
     <Card className="bg-primary/20 border-none mt-20 shadow-sm shadow-secondary">
       <CardHeader>
-        <CardTitle className="text-white">Snapshots</CardTitle>
+        <CardTitle className="text-white text-sm">All jobs of snapshots</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -178,7 +244,7 @@ export function SnapshotList() {
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         onClick={() => handleAction(snapshot.id, 'delete')}
-                        className="text-[#AC46E7] hover:bg-[#622C6C] focus:bg-[#622C6C]"
+                        className="text-white bg-red-800 hover:bg-red-900 focus:bg-red-900"
                       >
                         <Trash className="h-4 w-4 mr-2" />
                         Delete

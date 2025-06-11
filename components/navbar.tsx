@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Settings, LogOut, User, Wallet, Search } from "lucide-react"
+import { Settings, LogOut, User, Wallet, Search, User2 } from "lucide-react"
 import Image from "next/image"
 import { Input } from "./ui/input"
 
@@ -68,16 +68,19 @@ export function Navbar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src="/ultra.png" alt="Factory Manager" />
+                  <Avatar className="h-8 w-8 p-2 bg-secondary">
+                    <User2 
+                      size={10}
+                      color="white"
+                    />
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
+              <DropdownMenuContent className="w-56 bg-foreground/90 shadow-sm shadow-secondary" align="end">
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium">Factory Manager</p>
-                    <p className="text-xs text-muted-foreground">manager@ultra-times.com</p>
+                    <p className="text-sm font-bold text-white">Factory Manager</p>
+                    <p className="text-xs text-white">manager@ultra-times.com</p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
@@ -90,7 +93,7 @@ export function Navbar() {
                   Paramètres
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem className="bg-red-800 hover:bg-red-900">
                   <LogOut className="mr-2 h-4 w-4" />
                   Se déconnecter
                 </DropdownMenuItem>

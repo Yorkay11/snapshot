@@ -88,10 +88,34 @@ export function ActiveJobs() {
                 <span className="text-xs font-medium text-white">{job.progress}%</span>
               </div>
             </div>
-            <Progress value={job.progress} className="h-2" />
+            <div className="relative overflow-hidden">
+              <Progress value={job.progress} className="h-2" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+            </div>
           </div>
         ))}
       </CardContent>
     </Card>
   );
+}
+
+const styles = `
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+`;
+
+if (typeof document !== 'undefined') {
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = styles;
+  document.head.appendChild(styleSheet);
 } 

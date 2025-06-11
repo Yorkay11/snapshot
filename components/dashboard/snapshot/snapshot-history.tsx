@@ -135,7 +135,7 @@ export function SnapshotHistory() {
   return (
     <Card className="bg-primary/20 border-none mt-8 shadow-sm shadow-secondary">
       <CardHeader>
-        <CardTitle className="text-white">Snapshot History</CardTitle>
+        <CardTitle className="text-white text-sm font-bold">Snapshot History</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
