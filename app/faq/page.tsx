@@ -4,6 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { LandingNavbar } from "@/components/landing/navbar";
 import { ChevronDown } from 'lucide-react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -21,7 +24,7 @@ export default function FAQ() {
         <div className="relative py-20 px-4">
           <div className="max-w-7xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
-              Questions Fréquentes
+              Frequently Asked Questions
             </h1>
             <p className="text-xl text-white/80 text-center max-w-3xl mx-auto">
               Tout ce que vous devez savoir sur Ultra-Times Snapshot
@@ -33,29 +36,52 @@ export default function FAQ() {
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto">
             <div className="space-y-6">
-              {faqs.map((faq, index) => (
-                <div 
-                  key={index}
-                  className="bg-[#28274A] rounded-lg shadow-[0_0_15px_rgba(98,44,108,0.3)] overflow-hidden"
-                >
-                  <button
-                    onClick={() => toggleQuestion(index)}
-                    className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-[#1A1A2E] transition-colors"
-                  >
-                    <span className="text-lg font-semibold">{faq.question}</span>
-                    <ChevronDown 
-                      className={`w-6 h-6 transition-transform ${
-                        openIndex === index ? 'transform rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  {openIndex === index && (
-                    <div className="px-6 py-4 bg-[#1A1A2E]">
-                      <p className="text-white/80">{faq.answer}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
+              <Accordion type="single" collapsible className="space-y-4">
+                <AccordionItem value="item-1" className="bg-[#1A1A2E] border-white/10 rounded-lg px-4">
+                  <AccordionTrigger className="text-lg font-semibold">
+                    What is Ultra-Times Snapshot?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/70">
+                    Ultra-Times Snapshot is a powerful tool for managing and automating your NFT collection snapshots and airdrops on the Ultra blockchain. It helps you track your collection's evolution and engage with your community through targeted airdrops.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-2" className="bg-[#1A1A2E] border-white/10 rounded-lg px-4">
+                  <AccordionTrigger className="text-lg font-semibold">
+                    How does the pricing work?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/70">
+                    Our pricing is based on the number of snapshots and airdrops you perform. We offer different tiers to accommodate projects of all sizes. Additional fees may apply for features like CSV export or airdrops. Check our Pricing page for more details.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-3" className="bg-[#1A1A2E] border-white/10 rounded-lg px-4">
+                  <AccordionTrigger className="text-lg font-semibold">
+                    Is my data secure?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/70">
+                    Yes, your data is completely secure. We never have access to your private keys, and all transactions are signed directly from your wallet.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-4" className="bg-[#1A1A2E] border-white/10 rounded-lg px-4">
+                  <AccordionTrigger className="text-lg font-semibold">
+                    Can I customize my snapshots?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/70">
+                    Yes, you can customize various aspects of your snapshots, including frequency, conditions, and data collection parameters. Our platform offers flexible options to meet your specific needs.
+                  </AccordionContent>
+                </AccordionItem>
+
+                <AccordionItem value="item-5" className="bg-[#1A1A2E] border-white/10 rounded-lg px-4">
+                  <AccordionTrigger className="text-lg font-semibold">
+                    How do I get started?
+                  </AccordionTrigger>
+                  <AccordionContent className="text-white/70">
+                    Getting started is easy! Simply connect your Ultra wallet, choose your plan, and start creating your first snapshot. Our intuitive interface will guide you through the process.
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </div>
           </div>
         </section>
@@ -63,26 +89,11 @@ export default function FAQ() {
         {/* Contact Section */}
         <section className="py-20 px-4 bg-[#28274A]">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold mb-6">
-              Vous n'avez pas trouvé votre réponse ?
-            </h2>
-            <p className="text-xl text-white/80 mb-8">
-              Notre équipe est là pour vous aider
-            </p>
-            <div className="flex flex-col md:flex-row justify-center gap-4">
-              <a 
-                href="https://discord.gg/ultratimes"
-                className="inline-block bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
-              >
-                Rejoindre Discord
-              </a>
-              <a 
-                href="mailto:support@ultratimes.com"
-                className="inline-block bg-[#AC46E7] hover:bg-[#8757B2] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors"
-              >
-                Contacter le Support
-              </a>
-            </div>
+            <h2 className="text-3xl font-bold mb-8">Still have questions?</h2>
+            <Button className="bg-secondary hover:bg-secondary/90 text-white px-8 py-6 rounded-full text-lg font-semibold transition-colors shadow-[0_0_15px_rgba(172,70,231,0.3)]">
+              Contact Support
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
           </div>
         </section>
       </div>

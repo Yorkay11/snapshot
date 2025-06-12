@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -12,13 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar } from "@/components/ui/avatar"
 import { Settings, LogOut, User, Wallet, Search, User2 } from "lucide-react"
 import Image from "next/image"
 import { Input } from "./ui/input"
 
 export function Navbar() {
-  const pathname = usePathname()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   const navItems = [
@@ -28,7 +26,7 @@ export function Navbar() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-md">
+    <nav className="sticky top-0 z-40 backdrop-blur-md">
       <div className="container mx-auto px-28 py-3">
         <div className="flex items-center justify-between">
           <div className="flex flex-row gap-20">
@@ -68,7 +66,7 @@ export function Navbar() {
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Button className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-10 w-10 flex items-center justify-center bg-secondary">
                       <User 
                         size={20}
@@ -87,16 +85,16 @@ export function Navbar() {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
                     <User className="mr-2 h-4 w-4" />
-                    Profil
+                    Profile
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Settings className="mr-2 h-4 w-4" />
-                    Paramètres
+                    Settings
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="bg-red-800 hover:bg-red-900">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Se déconnecter
+                    Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

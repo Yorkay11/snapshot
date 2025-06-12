@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { LandingNavbar } from "@/components/landing/navbar";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ArrowRight, Clock, Database, LineChart, Lock, Settings, Shield, Zap } from "lucide-react"
 
 export default function Features() {
   return (
@@ -12,7 +15,7 @@ export default function Features() {
         <div className="relative py-20 px-4">
           <div className="max-w-7xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">
-              Fonctionnalités
+              Features
             </h1>
             <p className="text-xl text-white/80 text-center max-w-3xl mx-auto">
               Découvrez comment Ultra-Times Snapshot peut transformer votre gestion de collection NFT
@@ -25,9 +28,9 @@ export default function Features() {
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-6">Snapshots Automatisés</h2>
+                <h2 className="text-3xl font-bold mb-6">Recurring Snapshots</h2>
                 <p className="text-white/80 mb-6">
-                  Capturez l'état de votre collection à intervalles réguliers sans effort. Définissez la fréquence qui vous convient et laissez Ultra-Times gérer le reste.
+                  Schedule your snapshots at regular intervals to track your collection's evolution.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
@@ -77,9 +80,9 @@ export default function Features() {
                 />
               </div>
               <div className="order-1 md:order-2">
-                <h2 className="text-3xl font-bold mb-6">Airdrops Conditionnels</h2>
+                <h2 className="text-3xl font-bold mb-6">Data Management</h2>
                 <p className="text-white/80 mb-6">
-                  Distribuez vos tokens UNIQ et UOS en fonction de conditions personnalisées. Engagez votre communauté avec des récompenses ciblées.
+                  Export your data to CSV for in-depth analysis of your collection.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
@@ -111,9 +114,9 @@ export default function Features() {
           <div className="max-w-7xl mx-auto">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h2 className="text-3xl font-bold mb-6">Conditions Avancées</h2>
+                <h2 className="text-3xl font-bold mb-6">Analytics</h2>
                 <p className="text-white/80 mb-6">
-                  Créez des règles complexes pour cibler précisément vos détenteurs. Combinez plusieurs conditions pour des airdrops ultra-personnalisés.
+                  Track your collection's performance with detailed analytics and insights.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
@@ -163,9 +166,9 @@ export default function Features() {
                 />
               </div>
               <div className="order-1 md:order-2">
-                <h2 className="text-3xl font-bold mb-6">Historique Complet</h2>
+                <h2 className="text-3xl font-bold mb-6">Security</h2>
                 <p className="text-white/80 mb-6">
-                  Gardez une trace de tous vos snapshots et airdrops. Exportez vos données pour des analyses approfondies.
+                  Your data is encrypted and secure. We never have access to your private keys.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
@@ -196,17 +199,15 @@ export default function Features() {
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Prêt à commencer ?
+              Ready to get started?
             </h2>
             <p className="text-xl text-white/80 mb-8">
               Rejoignez les projets qui font confiance à Ultra-Times Snapshot
             </p>
-            <Link 
-              href="/dashboard"
-              className="inline-block bg-[#AC46E7] hover:bg-[#8757B2] text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors shadow-[0_0_15px_rgba(172,70,231,0.3)]"
-            >
-              Lancer la dApp
-            </Link>
+            <Button className="bg-secondary hover:bg-secondary/90 text-white px-8 py-6 rounded-full text-lg font-semibold transition-colors shadow-[0_0_15px_rgba(172,70,231,0.3)]">
+              Start Free Trial
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
           </div>
         </section>
       </div>

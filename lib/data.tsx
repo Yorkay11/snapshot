@@ -5,8 +5,8 @@ export const howItWorks = [
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
         </svg>
       ),
-      title: "Connectez",
-      description: "Connectez votre wallet Ultra et accédez à votre espace Factory Manager."
+      title: "Connect",
+      description: "Connect your Ultra wallet and access your Factory Manager space."
     },
     {
       icon: (
@@ -15,8 +15,8 @@ export const howItWorks = [
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      title: "Configurez",
-      description: "Définissez vos paramètres de snapshot et vos conditions d'airdrop."
+      title: "Configure",
+      description: "Set up your snapshot parameters and airdrop conditions."
     },
     {
       icon: (
@@ -24,8 +24,8 @@ export const howItWorks = [
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
       ),
-      title: "Automatisez",
-      description: "Lancez vos jobs et laissez Ultra-Times gérer vos snapshots et airdrops."
+      title: "Automate",
+      description: "Launch your jobs and let Ultra-Times handle your snapshots and airdrops."
     }
   ];
   
@@ -36,8 +36,8 @@ export const howItWorks = [
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
         </svg>
       ),
-      title: "Snapshots Récurrents",
-      description: "Planifiez vos snapshots à intervalles réguliers pour suivre l'évolution de votre collection."
+      title: "Recurring Snapshots",
+      description: "Schedule your snapshots at regular intervals to track your collection's evolution."
     },
     {
       icon: (
@@ -45,8 +45,8 @@ export const howItWorks = [
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
       ),
-      title: "Airdrops Conditionnels",
-      description: "Définissez des conditions précises pour vos airdrops UNIQ et UOS."
+      title: "Conditional Airdrops",
+      description: "Define precise conditions for your UNIQ and UOS airdrops."
     },
     {
       icon: (
@@ -54,30 +54,30 @@ export const howItWorks = [
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
         </svg>
       ),
-      title: "Export Facile",
-      description: "Exportez vos données en CSV pour une analyse approfondie de votre collection."
+      title: "Easy Export",
+      description: "Export your data to CSV for in-depth analysis of your collection."
     }
   ];
   
   export const socialProof = [
     {
       name: "Project A",
-      logo: "/project-a.png",
-      testimonial: "Ultra-Times nous a permis d'automatiser nos airdrops et d'engager notre communauté."
+      logo: "/nft3.jpg",
+      testimonial: "Ultra-Times has enabled us to automate our airdrops and engage our community."
     },
     {
       name: "Project B",
-      logo: "/project-b.png",
-      testimonial: "Une solution simple et efficace pour gérer nos snapshots récurrents."
+      logo: "/nft3.jpg",
+      testimonial: "A simple and effective solution for managing our recurring snapshots."
     },
     {
       name: "Project C",
-      logo: "/project-c.png",
-      testimonial: "Le support est excellent et l'interface est intuitive."
+      logo: "/nft3.jpg",
+      testimonial: "The support is excellent and the interface is intuitive."
     },
     {
       name: "Project D",
-      logo: "/project-d.png",
-      testimonial: "Nous avons réduit notre temps de gestion de 80% grâce à Ultra-Times."
+      logo: "/nft3.jpg",
+      testimonial: "We've reduced our management time by 80% thanks to Ultra-Times."
     }
   ];
