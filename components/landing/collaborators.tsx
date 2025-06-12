@@ -114,9 +114,9 @@ const Collaborators = () => {
                                     </div>
                                 </div>
 
-                                <div className="absolute bottom-0 left-0 h-1 bg-white/20 w-full rounded-full">
+                                <div className="absolute bottom-0 left-0 h-1 bg-primary w-full rounded-full">
                                     <div 
-                                        className="h-full bg-white transition-all duration-100 rounded-full"
+                                        className="h-full bg-secondary transition-all duration-100 rounded-full"
                                         style={{ width: `${index === currentIndex ? progress : 0}%` }}
                                     />
                                 </div>
