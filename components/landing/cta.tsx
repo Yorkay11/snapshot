@@ -7,12 +7,12 @@ import { motion } from 'framer-motion'
 
 const Cta = () => {
     const collectionImages = [
-        '/nft3.jpg',
-        '/nft3.jpg',
-        '/nft3.jpg',
-        '/nft3.jpg',
-        '/nft3.jpg',
-        '/nft3.jpg',
+        '/nft2.jpg',
+        '/nft4.jpg',
+        '/nft5.jpg',
+        '/nft6.jpg',
+        '/nft7.jpg',
+        '/nft8.jpg',
     ]
 
     const containerVariants = {

@@ -18,7 +18,6 @@ const ImageVortex = ({ images, size = 400, speed = 10 }: ImageVortexProps) => {
       style={{ opacity: 0.2 }}
     >
       {images.map((image, index) => {
-        // Calcul des positions initiales aléatoires
         const initialX = (Math.random() - 0.5) * containerSize
         const initialY = (Math.random() - 0.5) * containerSize
         const initialZ = Math.random() * 100 - 50

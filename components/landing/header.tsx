@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Wallet } from 'lucide-react';
+import Collaborators from './collaborators';
 
 const Header = () => {
     return (
@@ -13,10 +14,10 @@ const Header = () => {
                         <div className="flex flex-col h-full justify-between">
                             <div className="grid gap-8">
                                 <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-[#AC46E7] to-[#8757B2] text-white bg-clip-text">
-                                    Automatisez vos snapshots et airdrops sur Ultra
+                                    Automate your snapshots and airdrops on Ultra
                                 </h1>
                                 <p className="text-md text-white/80 font-light">
-                                    Gagnez du temps, engagez votre communauté et gérez vos détenteurs de tokens sans effort. Une solution puissante pour les créateurs et les collectionneurs.
+                                    Save time, engage your community, and manage your token holders effortlessly. A powerful solution for creators and collectors.
                                 </p>
                             </div>
 
@@ -40,9 +41,7 @@ const Header = () => {
                                 <p className="text-md text-white font-semibold">
                                     Partners and Collaborations
                                 </p>
-                                <div className="flex flex-row gap-4 bg-muted-foreground p-12 w-full">
-
-                                </div>
+                                <Collaborators />
                             </div>
                         </div>
 
@@ -63,7 +62,7 @@ const Header = () => {
                                 <div className="grid grid-rows-3 gap-4">
                                     <div className="relative h-[140px] rounded-lg overflow-hidden shadow-[0_0_15px_rgba(172,70,231,0.3)]">
                                         <Image
-                                            src="/nft3.jpg"
+                                            src="/nft1.jpg"
                                             alt="Feature 1"
                                             fill
                                             className="object-cover"
@@ -71,7 +70,7 @@ const Header = () => {
                                     </div>
                                     <div className="relative h-[140px] rounded-lg overflow-hidden shadow-[0_0_15px_rgba(172,70,231,0.3)]">
                                         <Image
-                                            src="/nft3.jpg"
+                                            src="/nft2.jpg"
                                             alt="Feature 2"
                                             fill
                                             className="object-cover"
@@ -79,7 +78,7 @@ const Header = () => {
                                     </div>
                                     <div className="relative h-[140px] rounded-lg overflow-hidden shadow-[0_0_15px_rgba(172,70,231,0.3)]">
                                         <Image
-                                            src="/nft3.jpg"
+                                            src="/nft6.jpg"
                                             alt="Feature 3"
                                             fill
                                             className="object-cover"
@@ -91,7 +90,7 @@ const Header = () => {
                             <div className='flex flex-row w-full items-center justify-between'>
                                 <div className='flex flex-row gap-2 items-center'>
                                     <Image
-                                        src="/nft3.jpg"
+                                        src="/nft5.jpg"
                                         alt="Main feature"
                                         width={10}
                                         height={10}
@@ -106,7 +105,7 @@ const Header = () => {
 
                                 <div className='flex flex-row gap-2 items-center'>
                                     <Image
-                                        src="/nft3.jpg"
+                                        src="/nft6.jpg"
                                         alt="Main feature"
                                         width={10}
                                         height={10}
@@ -121,7 +120,7 @@ const Header = () => {
 
                                 <div className='flex flex-row gap-2 items-center'>
                                     <Image
-                                        src="/nft3.jpg"
+                                        src="/nft8.jpg"
                                         alt="Main feature"
                                         width={10}
                                         height={10}
