@@ -86,7 +86,7 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button className="relative h-8 w-8 rounded-full">
                     <Avatar className="h-10 w-10 flex items-center justify-center bg-secondary">
-                      <User 
+                      <User
                         size={20}
                         color="white"
                       />
@@ -106,16 +106,18 @@ export function Navbar() {
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link
-                      href={"/dashboard"}
-                    >
+
+                  <Link
+                    href={"/dashboard"}
+
+                  >
+                    <DropdownMenuItem>
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
-                    </Link>
-                  </DropdownMenuItem>
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
+                  <DropdownMenuItem
                     className="bg-red-800 hover:bg-red-900"
                     onClick={disconnectWallet}
                   >
@@ -126,7 +128,7 @@ export function Navbar() {
               </DropdownMenu>
             ) : (
               <div className="flex flex-col items-end">
-                <Button 
+                <Button
                   className="bg-secondary hover:bg-secondary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors shadow-[0_0_15px_rgba(172,70,231,0.3)] flex items-center justify-center gap-2"
                   onClick={connectWallet}
                   disabled={isConnecting}
