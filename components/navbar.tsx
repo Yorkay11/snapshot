@@ -17,10 +17,17 @@ import Image from "next/image"
 import { Input } from "./ui/input"
 import { useAuth } from "@/contexts/AuthContext"
 
+interface UltraWalletResponse {
+  status: 'success' | 'error';
+  data: {
+    blockchainId: string;
+  };
+}
+
 declare global {
   interface Window {
     ultra?: {
-      connect: () => Promise<string[]>;
+      connect: () => Promise<UltraWalletResponse>;
       disconnect: () => Promise<void>;
     };
   }
@@ -95,12 +102,17 @@ export function Navbar() {
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>
+
                     <User className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
+                    <Link
+                      href={"/dashboard"}
+                    >
+                      <Settings className="mr-2 h-4 w-4" />
+                      Settings
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem 

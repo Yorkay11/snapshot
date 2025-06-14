@@ -3,12 +3,29 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
 import { toast } from "sonner"
 
+interface UltraWalletResponse {
+  status: 'success' | 'error';
+  data: {
+    blockchainId: string;
+    // Ajoutez d'autres propriétés si nécessaire
+  };
+}
+
 interface AuthContextType {
   isAuthenticated: boolean
   isConnecting: boolean
   walletAddress: string | null
   connectWallet: () => Promise<void>
   disconnectWallet: () => Promise<void>
+}
+
+declare global {
+  interface Window {
+    ultra?: {
+      connect: () => Promise<UltraWalletResponse>;
+      disconnect: () => Promise<void>;
+    };
+  }
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -35,17 +52,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const result = await window.ultra.connect()
-
-      const account = result
-
-      console.log(account);
       
-      
-      if (account) {
+      if (result.status === 'success' && result.data) {
         setIsAuthenticated(true)
-        setWalletAddress(account[0])
+        setWalletAddress(result.data.blockchainId)
         toast.success("Wallet Connected", {
-          description: `Successfully connected to ${account[0].slice(0, 6)}...${account[0].slice(-4)}`,
+          description: `Successfully connected to account ${result.data.blockchainId}`,
           duration: 3000,
         })
       } else {
@@ -85,15 +97,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  // Vérifier si le wallet est déjà connecté au chargement
   useEffect(() => {
     const checkConnection = async () => {
       if (window.ultra) {
         try {
-          const account = await window.ultra.connect()
-          if (account && account.length > 0) {
+          const result = await window.ultra.connect()
+          if (result.status === 'success' && result.data) {
             setIsAuthenticated(true)
-            setWalletAddress(account[0])
+            setWalletAddress(result.data.blockchainId)
           }
         } catch (err) {
           console.error("Failed to check wallet connection:", err)
