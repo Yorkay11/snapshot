@@ -10,7 +10,7 @@ export function RightSidebar() {
   return (
     <div className="flex h-full">
       <div className="flex-1 h-fit ">
-        <div className="py-4 space-y-4">
+        <div className="px-4 space-y-4">
           <MoneyRecharge />
 
           {/* <MoneySend /> */}

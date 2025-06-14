@@ -7,7 +7,7 @@ export function Sidebar() {
   return (
     <div className="flex h-full flex-col">
       <div className="h-full overflow-hidden px-4">
-        <div className="space-y-2 h-full">
+        <div className="space-y-2 h-auto">
           <ActiveJobs />
           <RecentActivities />
         </div>
