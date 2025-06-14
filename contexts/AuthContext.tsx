@@ -34,18 +34,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return
       }
 
-      const accounts = await window.ultra.connect()
+      const result = await window.ultra.connect()
+
+      const account = result
+
+      console.log(account);
       
-      if (accounts && accounts.length > 0) {
+      
+      if (account) {
         setIsAuthenticated(true)
-        setWalletAddress(accounts[0])
+        setWalletAddress(account[0])
         toast.success("Wallet Connected", {
-          description: `Successfully connected to ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`,
+          description: `Successfully connected to ${account[0].slice(0, 6)}...${account[0].slice(-4)}`,
           duration: 3000,
         })
       } else {
         toast.error("Connection Failed", {
-          description: "No accounts found in your wallet.",
+          description: "No account found in your wallet.",
           duration: 3000,
         })
       }
@@ -85,10 +90,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkConnection = async () => {
       if (window.ultra) {
         try {
-          const accounts = await window.ultra.connect()
-          if (accounts && accounts.length > 0) {
+          const account = await window.ultra.connect()
+          if (account && account.length > 0) {
             setIsAuthenticated(true)
-            setWalletAddress(accounts[0])
+            setWalletAddress(account[0])
           }
         } catch (err) {
           console.error("Failed to check wallet connection:", err)
