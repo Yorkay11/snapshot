@@ -12,8 +12,8 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen h-full flex flex-col">
       <Navbar />
-      <Exchange />
-      <div className="flex flex-1 overflow-hidden">
+      {/* <Exchange /> */}
+      <div className="flex flex-1 overflow-hidden mt-20">
         <div className="w-[400px] min-w-[300px] h-full py-4 overflow-y-auto animate-in slide-in-from-left duration-1000">
           <Sidebar />
         </div>

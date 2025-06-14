@@ -95,11 +95,39 @@ export function CreateSnapshotForm() {
   const [recurrence, setRecurrence] = useState('once');
   const [searchQuery, setSearchQuery] = useState('');
   const [advancedOptions, setAdvancedOptions] = useState({
-    retryAttempts: 3,
-    retryDelay: 5,
     notifyOnFailure: true,
-    priority: 'normal'
+    priority: 'normal',
+    autoExport: false,
+    exportFormat: 'csv',
+    includeMetadata: true,
+    includeImages: true,
+    includeAttributes: true,
+    includeHistory: false,
+    groupByAttribute: '',
+    sortBy: 'id',
+    sortDirection: 'asc',
+    enableRewards: false,
+    rewardType: 'uos',
+    rewardTopUsers: 15,
+    rewardAmount: 100,
+    rewardBasedOn: 'unique_holders',
+    selectedUniqs: [] as string[],
+    distributionMethod: 'equal' // 'equal' or 'weighted'
   });
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [selectedAttribute, setSelectedAttribute] = useState('');
+  const [selectedValue, setSelectedValue] = useState('');
+  const [addedCriteria, setAddedCriteria] = useState<Array<{type: string, value: string}>>([]);
+
+  const criteriaOptions = {
+    rarity: ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'],
+    type: ['Character', 'Weapon', 'Armor', 'Accessory', 'Pet'],
+    armor: ['Light', 'Medium', 'Heavy', 'Mythic', 'Legendary'],
+    weapon: ['Sword', 'Bow', 'Staff', 'Dagger', 'Axe'],
+    background: ['Forest', 'Castle', 'Dungeon', 'Mountain', 'Ocean'],
+    level: ['1-10', '11-20', '21-30', '31-40', '41-50'],
+    power: ['1-100', '101-200', '201-300', '301-400', '401-500']
+  };
 
   const handleNext = () => {
     setStep(step + 1);
@@ -129,6 +157,161 @@ export function CreateSnapshotForm() {
       value.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
+
+  const getValueOptions = (attribute: string) => {
+    switch (attribute) {
+      case 'rarity':
+        return ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'];
+      case 'type':
+        return ['Character', 'Weapon', 'Armor', 'Accessory', 'Pet'];
+      case 'armor':
+        return ['Light', 'Medium', 'Heavy', 'Mythic', 'Legendary'];
+      case 'weapon':
+        return ['Sword', 'Bow', 'Staff', 'Dagger', 'Axe'];
+      case 'background':
+        return ['Forest', 'Castle', 'Dungeon', 'Mountain', 'Ocean'];
+      case 'level':
+        return ['1-10', '11-20', '21-30', '31-40', '41-50'];
+      case 'power':
+        return ['1-100', '101-200', '201-300', '301-400', '401-500'];
+      default:
+        return [];
+    }
+  };
+
+  // Calculate total rewards
+  const calculateTotalRewards = () => {
+    if (advancedOptions.rewardType === 'uos') {
+      return advancedOptions.rewardTopUsers * advancedOptions.rewardAmount;
+    } else {
+      return advancedOptions.rewardTopUsers * advancedOptions.selectedUniqs.length;
+    }
+  };
+
+  // Calculate distribution per user
+  const calculateDistributionPerUser = () => {
+    if (advancedOptions.rewardType === 'uos') {
+      return advancedOptions.rewardAmount;
+    } else {
+      return advancedOptions.selectedUniqs.length;
+    }
+  };
+
+  // Calculate estimated cost
+  const calculateEstimatedCost = () => {
+    const baseFee = 10; // Base fee in UOS
+    const processingFee = 5; // Processing fee per user
+    const storageFee = 2; // Storage fee per UNIQ (if applicable)
+    
+    let total = baseFee;
+    
+    if (advancedOptions.rewardType === 'uos') {
+      total += (processingFee * advancedOptions.rewardTopUsers);
+    } else {
+      total += (processingFee * advancedOptions.rewardTopUsers);
+      total += (storageFee * advancedOptions.selectedUniqs.length * advancedOptions.rewardTopUsers);
+    }
+    
+    return total;
+  };
+
+  // Calculate snapshot costs
+  const calculateSnapshotCosts = () => {
+    const costs = {
+      baseFee: 10, // Base fee for snapshot creation
+      processingFee: 5, // Processing fee per user
+      storageFee: 2, // Storage fee per UNIQ (if applicable)
+      exportFee: 0,
+      rewardFee: 0,
+      transactionFee: 0 // New fee for transaction costs
+    };
+
+    // Add export fee based on format
+    if (advancedOptions.autoExport) {
+      switch (advancedOptions.exportFormat) {
+        case 'csv':
+          costs.exportFee = 2;
+          break;
+        case 'json':
+          costs.exportFee = 3;
+          break;
+        case 'excel':
+          costs.exportFee = 5;
+          break;
+      }
+    }
+
+    // Add reward fees if enabled
+    if (advancedOptions.enableRewards) {
+      if (advancedOptions.rewardType === 'uos') {
+        costs.rewardFee = advancedOptions.rewardTopUsers * 1; // 1 UOS per user for UOS distribution
+        costs.transactionFee = advancedOptions.rewardTopUsers * 0.5; // 0.5 UOS per transaction
+      } else {
+        costs.rewardFee = advancedOptions.rewardTopUsers * advancedOptions.selectedUniqs.length * 2; // 2 UOS per UNIQ per user
+        costs.transactionFee = advancedOptions.rewardTopUsers * 0.5; // 0.5 UOS per transaction
+      }
+    }
+
+    return costs;
+  };
+
+  // Calculate total tokens in snapshot
+  const calculateTotalTokens = () => {
+    if (snapshotType === 'full') {
+      return mockTokens.length;
+    } else if (snapshotType === 'specific') {
+      return selectedTokens.length;
+    } else {
+      // For criteria-based, estimate based on selected criteria
+      return Math.floor(mockTokens.length * 0.5); // Example estimation
+    }
+  };
+
+  // Calculate estimated processing time
+  const calculateProcessingTime = () => {
+    const baseTime = 5; // 5 minutes base
+    const tokens = calculateTotalTokens();
+    const timePerToken = 0.1; // 0.1 minutes per token
+    return Math.ceil(baseTime + (tokens * timePerToken));
+  };
+
+  // Calculate weighted distribution
+  const calculateWeightedDistribution = () => {
+    const totalUsers = advancedOptions.rewardTopUsers;
+    const totalWeight = (totalUsers * (totalUsers + 1)) / 2; // Sum of ranks (1 to n)
+    
+    return Array.from({ length: totalUsers }, (_, i) => {
+      const rank = i + 1;
+      const weight = totalUsers - i; // Higher rank = higher weight
+      const percentage = (weight / totalWeight) * 100;
+      
+      return {
+        rank,
+        weight,
+        percentage: percentage.toFixed(2)
+      };
+    });
+  };
+
+  // Calculate reward amount for a specific rank
+  const calculateRewardForRank = (rank: number) => {
+    if (advancedOptions.distributionMethod !== 'weighted') {
+      return advancedOptions.rewardType === 'uos' 
+        ? advancedOptions.rewardAmount 
+        : advancedOptions.selectedUniqs.length;
+    }
+
+    const totalUsers = advancedOptions.rewardTopUsers;
+    const totalWeight = (totalUsers * (totalUsers + 1)) / 2;
+    const weight = totalUsers - rank + 1;
+    const percentage = weight / totalWeight;
+
+    if (advancedOptions.rewardType === 'uos') {
+      return Math.round(advancedOptions.rewardAmount * percentage * 100) / 100;
+    } else {
+      return Math.round(advancedOptions.selectedUniqs.length * percentage);
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] space-y-6">
@@ -345,28 +528,105 @@ export function CreateSnapshotForm() {
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <Label className="text-white">Attribute</Label>
-                        <Select>
+                        <Select 
+                          value={selectedAttribute}
+                          onValueChange={(value) => {
+                            setSelectedAttribute(value);
+                            setSelectedValue('');
+                          }}
+                        >
                           <SelectTrigger className="bg-[#28274A] border-[#622C6C] text-white">
                             <SelectValue placeholder="Select an attribute" />
                           </SelectTrigger>
                           <SelectContent className="bg-[#28274A] border-[#622C6C]">
                             <SelectItem value="rarity" className="text-white hover:bg-[#622C6C]">Rarity</SelectItem>
                             <SelectItem value="type" className="text-white hover:bg-[#622C6C]">Type</SelectItem>
+                            <SelectItem value="armor" className="text-white hover:bg-[#622C6C]">Armor</SelectItem>
+                            <SelectItem value="weapon" className="text-white hover:bg-[#622C6C]">Weapon</SelectItem>
+                            <SelectItem value="background" className="text-white hover:bg-[#622C6C]">Background</SelectItem>
+                            <SelectItem value="level" className="text-white hover:bg-[#622C6C]">Level</SelectItem>
+                            <SelectItem value="power" className="text-white hover:bg-[#622C6C]">Power</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                       <div>
                         <Label className="text-white">Value</Label>
-                        <Input 
-                          placeholder="Attribute value" 
-                          className="bg-[#28274A] border-[#622C6C] text-white"
-                        />
+                        {selectedAttribute ? (
+                          <Select
+                            value={selectedValue}
+                            onValueChange={setSelectedValue}
+                          >
+                            <SelectTrigger className="bg-[#28274A] border-[#622C6C] text-white">
+                              <SelectValue placeholder="Select a value" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-[#28274A] border-[#622C6C]">
+                              {getValueOptions(selectedAttribute).map((option) => (
+                                <SelectItem 
+                                  key={option} 
+                                  value={option} 
+                                  className="text-white hover:bg-[#622C6C]"
+                                >
+                                  {option}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        ) : (
+                          <Input 
+                            placeholder="Select an attribute first" 
+                            className="bg-[#28274A] border-[#622C6C] text-white"
+                            disabled
+                          />
+                        )}
                       </div>
                     </div>
-                    <Button variant="outline" className="w-full border-[#622C6C] text-white hover:bg-[#622C6C]">
+                    <Button 
+                      className="w-full border-[#622C6C] text-white hover:bg-[#622C6C]"
+                      onClick={() => {
+                        if (selectedAttribute && selectedValue) {
+                          const criterionExists = addedCriteria.some(
+                            c => c.type === selectedAttribute && c.value === selectedValue
+                          );
+                          
+                          if (!criterionExists) {
+                            setAddedCriteria([...addedCriteria, { type: selectedAttribute, value: selectedValue }]);
+                            setSelectedAttribute('');
+                            setSelectedValue('');
+                          }
+                        }
+                      }}
+                    >
                       <Filter className="h-4 w-4 mr-2" />
                       Add a criterion
                     </Button>
+
+                    {addedCriteria.length > 0 && (
+                      <div className="mt-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-white">Added Criteria</Label>
+                          <span className="text-sm text-white/70">{addedCriteria.length} criteria</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {addedCriteria.map((criterion, index) => (
+                            <div 
+                              key={index}
+                              className="group flex items-center space-x-2 bg-[#28274A] px-3 py-1.5 rounded-full border border-[#622C6C] hover:border-[#AC46E7] transition-colors"
+                            >
+                              <span className="text-white text-sm capitalize">{criterion.type}:</span>
+                              <span className="text-white/70 text-sm">{criterion.value}</span>
+                              <button
+                                onClick={() => {
+                                  setAddedCriteria(addedCriteria.filter((_, i) => i !== index));
+                                }}
+                                className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              >
+                                <X className="h-3 w-3 text-white/70 hover:text-white" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </CardContent>
@@ -448,44 +708,307 @@ export function CreateSnapshotForm() {
                         </PopoverContent>
                       </Popover>
                     </div>
+                    <div>
+                      <Label className="text-white">Start Time</Label>
+                      <Input 
+                        type="time"
+                        className="bg-[#28274A] border-[#622C6C] text-white"
+                        onChange={(e) => {
+                          if (startDate) {
+                            const [hours, minutes] = e.target.value.split(':');
+                            const newDate = new Date(startDate);
+                            newDate.setHours(parseInt(hours), parseInt(minutes));
+                            setStartDate(newDate);
+                          }
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <Label className="text-white">Advanced Options</Label>
-                    <Switch className="data-[state=checked]:bg-[#AC46E7]" />
+                    <Switch 
+                      checked={showAdvancedOptions}
+                      onCheckedChange={setShowAdvancedOptions}
+                      className="data-[state=checked]:bg-[#AC46E7]" 
+                    />
                   </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="text-white">Retry Attempts</Label>
-                      <Input
-                        type="number"
-                        value={advancedOptions.retryAttempts}
-                        onChange={(e) =>
-                          setAdvancedOptions({
-                            ...advancedOptions,
-                            retryAttempts: parseInt(e.target.value)
-                          })
-                        }
-                        className="bg-[#28274A] border-[#622C6C] text-white"
-                      />
+                  {showAdvancedOptions && (
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-white">Export Format</Label>
+                        <Select
+                          value={advancedOptions.exportFormat}
+                          onValueChange={(value) =>
+                            setAdvancedOptions({
+                              ...advancedOptions,
+                              exportFormat: value
+                            })
+                          }
+                        >
+                          <SelectTrigger className="bg-[#28274A] border-[#622C6C] text-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#28274A] border-[#622C6C]">
+                            <SelectItem value="csv" className="text-white hover:bg-[#622C6C]">CSV</SelectItem>
+                            <SelectItem value="json" className="text-white hover:bg-[#622C6C]">JSON</SelectItem>
+                            <SelectItem value="excel" className="text-white hover:bg-[#622C6C]">Excel</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label className="text-white">Sort By</Label>
+                        <Select
+                          value={advancedOptions.sortBy}
+                          onValueChange={(value) =>
+                            setAdvancedOptions({
+                              ...advancedOptions,
+                              sortBy: value
+                            })
+                          }
+                        >
+                          <SelectTrigger className="bg-[#28274A] border-[#622C6C] text-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent className="bg-[#28274A] border-[#622C6C]">
+                            <SelectItem value="id" className="text-white hover:bg-[#622C6C]">ID</SelectItem>
+                            <SelectItem value="name" className="text-white hover:bg-[#622C6C]">Name</SelectItem>
+                            <SelectItem value="rarity" className="text-white hover:bg-[#622C6C]">Rarity</SelectItem>
+                            <SelectItem value="type" className="text-white hover:bg-[#622C6C]">Type</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="col-span-2 flex items-center space-x-2">
+                        <Switch
+                          checked={advancedOptions.includeMetadata}
+                          onCheckedChange={(checked) =>
+                            setAdvancedOptions({
+                              ...advancedOptions,
+                              includeMetadata: checked
+                            })
+                          }
+                          className="data-[state=checked]:bg-[#AC46E7]"
+                        />
+                        <Label className="text-white">Include Metadata</Label>
+                      </div>
+                      <div className="col-span-2 flex items-center space-x-2">
+                        <Switch
+                          checked={advancedOptions.includeImages}
+                          onCheckedChange={(checked) =>
+                            setAdvancedOptions({
+                              ...advancedOptions,
+                              includeImages: checked
+                            })
+                          }
+                          className="data-[state=checked]:bg-[#AC46E7]"
+                        />
+                        <Label className="text-white">Include Images</Label>
+                      </div>
+                      <div className="col-span-2 flex items-center space-x-2">
+                        <Switch
+                          checked={advancedOptions.includeAttributes}
+                          onCheckedChange={(checked) =>
+                            setAdvancedOptions({
+                              ...advancedOptions,
+                              includeAttributes: checked
+                            })
+                          }
+                          className="data-[state=checked]:bg-[#AC46E7]"
+                        />
+                        <Label className="text-white">Include Attributes</Label>
+                      </div>
+                      <div className="col-span-2 flex items-center space-x-2">
+                        <Switch
+                          checked={advancedOptions.autoExport}
+                          onCheckedChange={(checked) =>
+                            setAdvancedOptions({
+                              ...advancedOptions,
+                              autoExport: checked
+                            })
+                          }
+                          className="data-[state=checked]:bg-[#AC46E7]"
+                        />
+                        <Label className="text-white">Auto Export After Snapshot</Label>
+                      </div>
+
+                      <div className="col-span-2 border-t border-[#622C6C] pt-4 mt-2">
+                        <h3 className="text-lg font-semibold text-white mb-4">Rewards Distribution</h3>
+                        <div className="space-y-4">
+                          <div className="flex items-center space-x-2">
+                            <Switch
+                              checked={advancedOptions.enableRewards}
+                              onCheckedChange={(checked) =>
+                                setAdvancedOptions({
+                                  ...advancedOptions,
+                                  enableRewards: checked
+                                })
+                              }
+                              className="data-[state=checked]:bg-[#AC46E7]"
+                            />
+                            <Label className="text-white">Enable Rewards</Label>
+                          </div>
+
+                          {advancedOptions.enableRewards && (
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <Label className="text-white">Reward Type</Label>
+                                <Select
+                                  value={advancedOptions.rewardType}
+                                  onValueChange={(value) =>
+                                    setAdvancedOptions({
+                                      ...advancedOptions,
+                                      rewardType: value,
+                                      selectedUniqs: value === 'uos' ? [] : advancedOptions.selectedUniqs
+                                    })
+                                  }
+                                >
+                                  <SelectTrigger className="bg-[#28274A] border-[#622C6C] text-white">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-[#28274A] border-[#622C6C]">
+                                    <SelectItem value="uos" className="text-white hover:bg-[#622C6C]">UOS Tokens</SelectItem>
+                                    <SelectItem value="uniq" className="text-white hover:bg-[#622C6C]">UNIQ NFTs</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+
+                              <div>
+                                <Label className="text-white">Number of Top Users</Label>
+                                <Input
+                                  type="number"
+                                  value={advancedOptions.rewardTopUsers}
+                                  onChange={(e) =>
+                                    setAdvancedOptions({
+                                      ...advancedOptions,
+                                      rewardTopUsers: parseInt(e.target.value)
+                                    })
+                                  }
+                                  className="bg-[#28274A] border-[#622C6C] text-white"
+                                />
+                              </div>
+
+                              {advancedOptions.rewardType === 'uos' ? (
+                                <div>
+                                  <Label className="text-white">UOS Amount per User</Label>
+                                  <Input
+                                    type="number"
+                                    value={advancedOptions.rewardAmount}
+                                    onChange={(e) =>
+                                      setAdvancedOptions({
+                                        ...advancedOptions,
+                                        rewardAmount: parseInt(e.target.value)
+                                      })
+                                    }
+                                    className="bg-[#28274A] border-[#622C6C] text-white"
+                                  />
+                                </div>
+                              ) : (
+                                <div className="col-span-2">
+                                  <Label className="text-white">Select UNIQs to Distribute</Label>
+                                  <div className="mt-2 grid grid-cols-3 gap-2">
+                                    {['UNIQ #1', 'UNIQ #2', 'UNIQ #3', 'UNIQ #4', 'UNIQ #5'].map((uniq) => (
+                                      <div
+                                        key={uniq}
+                                        className={`flex items-center space-x-2 p-2 rounded-lg border cursor-pointer transition-colors ${
+                                          advancedOptions.selectedUniqs.includes(uniq)
+                                            ? 'bg-[#AC46E7] border-[#AC46E7]'
+                                            : 'bg-[#28274A] border-[#622C6C] hover:border-[#AC46E7]'
+                                        }`}
+                                        onClick={() => {
+                                          const newSelectedUniqs = advancedOptions.selectedUniqs.includes(uniq)
+                                            ? advancedOptions.selectedUniqs.filter(u => u !== uniq)
+                                            : [...advancedOptions.selectedUniqs, uniq];
+                                          setAdvancedOptions({
+                                            ...advancedOptions,
+                                            selectedUniqs: newSelectedUniqs
+                                          });
+                                        }}
+                                      >
+                                        <div className={`w-3 h-3 rounded-full ${
+                                          advancedOptions.selectedUniqs.includes(uniq)
+                                            ? 'bg-white'
+                                            : 'border border-white/50'
+                                        }`} />
+                                        <span className="text-white text-sm">{uniq}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              <div className="col-span-2">
+                                <Label className="text-white">Reward Based On</Label>
+                                <Select
+                                  value={advancedOptions.rewardBasedOn}
+                                  onValueChange={(value) =>
+                                    setAdvancedOptions({
+                                      ...advancedOptions,
+                                      rewardBasedOn: value
+                                    })
+                                  }
+                                >
+                                  <SelectTrigger className="bg-[#28274A] border-[#622C6C] text-white">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent className="bg-[#28274A] border-[#622C6C]">
+                                    <SelectItem value="unique_holders" className="text-white hover:bg-[#622C6C]">
+                                      Unique NFTs Held
+                                    </SelectItem>
+                                    <SelectItem value="total_value" className="text-white hover:bg-[#622C6C]">
+                                      Total Value
+                                    </SelectItem>
+                                    <SelectItem value="rarity_score" className="text-white hover:bg-[#622C6C]">
+                                      Rarity Score
+                                    </SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <p className="text-white/70 text-sm mt-1">
+                                  Each of the top {advancedOptions.rewardTopUsers} users will receive exactly {
+                                    advancedOptions.rewardType === 'uos' 
+                                      ? `${advancedOptions.rewardAmount} UOS`
+                                      : `${advancedOptions.selectedUniqs.length} UNIQ(s)`
+                                  }
+                                </p>
+                              </div>
+
+                              <div className="col-span-2 bg-[#28274A] p-4 rounded-lg border border-[#622C6C]">
+                                {advancedOptions.rewardType === 'uos' ? (
+                                  <>
+                                    <p className="text-white text-sm">
+                                      Total UOS to distribute: {calculateTotalRewards()} UOS
+                                    </p>
+                                    <p className="text-white/70 text-xs mt-1">
+                                      {advancedOptions.rewardTopUsers} users will receive exactly {advancedOptions.rewardAmount} UOS each
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    <p className="text-white text-sm">
+                                      Selected UNIQs to distribute: {advancedOptions.selectedUniqs.length}
+                                    </p>
+                                    <p className="text-white/70 text-xs mt-1">
+                                      {advancedOptions.rewardTopUsers} users will receive exactly {advancedOptions.selectedUniqs.length} UNIQ(s) each
+                                    </p>
+                                    {advancedOptions.selectedUniqs.length > 0 && (
+                                      <div className="mt-2 flex flex-wrap gap-2">
+                                        {advancedOptions.selectedUniqs.map((uniq) => (
+                                          <span key={uniq} className="text-xs text-white/70 bg-[#622C6C] px-2 py-1 rounded-full">
+                                            {uniq}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <Label className="text-white">Delay Between Attempts (minutes)</Label>
-                      <Input
-                        type="number"
-                        value={advancedOptions.retryDelay}
-                        onChange={(e) =>
-                          setAdvancedOptions({
-                            ...advancedOptions,
-                            retryDelay: parseInt(e.target.value)
-                          })
-                        }
-                        className="bg-[#28274A] border-[#622C6C] text-white"
-                      />
-                    </div>
-                  </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -503,11 +1026,11 @@ export function CreateSnapshotForm() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-white">Summary</h3>
+                  <h3 className="font-semibold text-white">Snapshot Summary</h3>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-white/70">Collection</p>
-                      <p className="font-medium text-white">{selectedCollection}</p>
+                      <p className="font-medium text-white">{selectedCollection || 'Not selected'}</p>
                     </div>
                     <div>
                       <p className="text-sm text-white/70">Snapshot Type</p>
@@ -520,41 +1043,109 @@ export function CreateSnapshotForm() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-white/70">Recurrence</p>
-                      <p className="font-medium text-white">{recurrence}</p>
+                      <p className="text-sm text-white/70">Total Tokens</p>
+                      <p className="font-medium text-white">{calculateTotalTokens()} tokens</p>
                     </div>
                     <div>
-                      <p className="text-sm text-white/70">Start Date</p>
-                      <p className="font-medium text-white">
-                        {startDate ? format(startDate, 'PPP', { locale: fr }) : 'Not set'}
-                      </p>
+                      <p className="text-sm text-white/70">Estimated Processing Time</p>
+                      <p className="font-medium text-white">{calculateProcessingTime()} minutes</p>
                     </div>
+                    {snapshotType === 'criteria' && addedCriteria.length > 0 && (
+                      <div className="col-span-2">
+                        <p className="text-sm text-white/70">Selected Criteria</p>
+                        <div className="flex flex-wrap gap-2 mt-1">
+                          {addedCriteria.map((criterion, index) => (
+                            <span key={index} className="text-xs text-white/70 bg-[#622C6C] px-2 py-1 rounded-full">
+                              {criterion.type}: {criterion.value}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="font-semibold text-white">Cost Estimation</h3>
+                  <h3 className="font-semibold text-white">Cost Estimation (Manager's Fees)</h3>
                   <div className="space-y-2">
-                    <div className="flex justify-between text-white">
-                      <span>Base fee</span>
-                      <span>10 UOS</span>
-                    </div>
-                    <div className="flex justify-between text-white">
-                      <span>Processing fee</span>
-                      <span>5 UOS</span>
-                    </div>
-                    <div className="flex justify-between text-white">
-                      <span>Storage fee</span>
-                      <span>2 UOS</span>
-                    </div>
-                    <div className="border-t border-[#622C6C] pt-2">
-                      <div className="flex justify-between font-semibold text-white">
-                        <span>Total</span>
-                        <span>17 UOS</span>
+                    {(() => {
+                      const costs = calculateSnapshotCosts();
+                      return (
+                        <>
+                          <div className="flex justify-between text-white">
+                            <span>Base fee (Snapshot creation)</span>
+                            <span>{costs.baseFee} UOS</span>
+                          </div>
+                          <div className="flex justify-between text-white">
+                            <span>Processing fee</span>
+                            <span>{costs.processingFee} UOS</span>
+                          </div>
+                          {advancedOptions.autoExport && (
+                            <div className="flex justify-between text-white">
+                              <span>Export fee ({advancedOptions.exportFormat})</span>
+                              <span>{costs.exportFee} UOS</span>
+                            </div>
+                          )}
+                          {advancedOptions.enableRewards && (
+                            <>
+                              <div className="flex justify-between text-white">
+                                <span>Reward distribution fee</span>
+                                <span>{costs.rewardFee} UOS</span>
+                              </div>
+                              <div className="flex justify-between text-white">
+                                <span>Transaction fees</span>
+                                <span>{costs.transactionFee} UOS</span>
+                              </div>
+                            </>
+                          )}
+                          <div className="border-t border-[#622C6C] pt-2">
+                            <div className="flex justify-between font-semibold text-white">
+                              <span>Total Fees (Manager's Cost)</span>
+                              <span>
+                                {Object.values(costs).reduce((a, b) => a + b, 0)} UOS
+                              </span>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </div>
+                </div>
+
+                {advancedOptions.enableRewards && (
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-white">Rewards Distribution</h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between text-white">
+                        <span>Reward Type</span>
+                        <span className="capitalize">{advancedOptions.rewardType}</span>
+                      </div>
+                      <div className="flex justify-between text-white">
+                        <span>Number of Recipients</span>
+                        <span>{advancedOptions.rewardTopUsers} users</span>
+                      </div>
+                      <div className="flex justify-between text-white">
+                        <span>Reward Based On</span>
+                        <span className="capitalize">{advancedOptions.rewardBasedOn}</span>
+                      </div>
+                      {advancedOptions.rewardType === 'uos' ? (
+                        <div className="flex justify-between text-white">
+                          <span>Amount per User (Net)</span>
+                          <span>{advancedOptions.rewardAmount} UOS</span>
+                        </div>
+                      ) : (
+                        <div className="flex justify-between text-white">
+                          <span>UNIQs per User</span>
+                          <span>{advancedOptions.selectedUniqs.length} UNIQs</span>
+                        </div>
+                      )}
+                      <div className="flex justify-between text-white">
+                        <span>Total Rewards (Net)</span>
+                        <span>{calculateTotalRewards()} {advancedOptions.rewardType === 'uos' ? 'UOS' : 'UNIQs'}</span>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>

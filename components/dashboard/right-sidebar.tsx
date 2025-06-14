@@ -13,7 +13,7 @@ export function RightSidebar() {
         <div className="py-4 space-y-4">
           <MoneyRecharge />
 
-          <MoneySend />
+          {/* <MoneySend /> */}
 
           {/* <Card className="border-none shadow-none bg-primary/20">
             <CardHeader className="pb-2">
@@ -67,7 +67,7 @@ export function RightSidebar() {
             </CardContent>
           </Card> */}
 
-          <CollectionComponent />
+          {/* <CollectionComponent /> */}
         </div>
       </div>
     </div>
