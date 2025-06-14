@@ -113,7 +113,7 @@ export function SnapshotHistory() {
       case 'partial':
         return 'bg-[#8757B2]';
       case 'failed':
-        return 'bg-[#28274A]';
+        return 'bg-red-900';
       default:
         return 'bg-[#622C6C]';
     }

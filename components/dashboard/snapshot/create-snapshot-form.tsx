@@ -780,7 +780,7 @@ export function CreateSnapshotForm() {
                           </SelectContent>
                         </Select>
                       </div>
-                      <div className="col-span-2 flex items-center space-x-2">
+                      {/* <div className="col-span-2 flex items-center space-x-2">
                         <Switch
                           checked={advancedOptions.includeMetadata}
                           onCheckedChange={(checked) =>
@@ -818,7 +818,8 @@ export function CreateSnapshotForm() {
                           className="data-[state=checked]:bg-[#AC46E7]"
                         />
                         <Label className="text-white">Include Attributes</Label>
-                      </div>
+                      </div> */}
+
                       <div className="col-span-2 flex items-center space-x-2">
                         <Switch
                           checked={advancedOptions.autoExport}
@@ -868,8 +869,8 @@ export function CreateSnapshotForm() {
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent className="bg-[#28274A] border-[#622C6C]">
-                                    <SelectItem value="uos" className="text-white hover:bg-[#622C6C]">UOS Tokens</SelectItem>
-                                    <SelectItem value="uniq" className="text-white hover:bg-[#622C6C]">UNIQ NFTs</SelectItem>
+                                    <SelectItem value="uos" className="text-white hover:bg-[#622C6C]">UOS</SelectItem>
+                                    <SelectItem value="uniq" className="text-white hover:bg-[#622C6C]">UNIQ</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </div>
@@ -954,7 +955,7 @@ export function CreateSnapshotForm() {
                                   </SelectTrigger>
                                   <SelectContent className="bg-[#28274A] border-[#622C6C]">
                                     <SelectItem value="unique_holders" className="text-white hover:bg-[#622C6C]">
-                                      Unique NFTs Held
+                                      UNIQs Held
                                     </SelectItem>
                                     <SelectItem value="total_value" className="text-white hover:bg-[#622C6C]">
                                       Total Value

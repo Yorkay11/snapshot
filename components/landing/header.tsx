@@ -5,8 +5,8 @@ import Collaborators from './collaborators';
 
 const Header = () => {
     return (
-            <div className="min-h-[80vh] relative py-32 px-4 bg-gradient-to-b from-foreground/90 to-foreground/95 overflow-hidden">
-                <div className="absolute inset-0 overflow-hidden">
+            <div className="min-h-[80vh] relative py-32 px-4 bg-gradient-to-b from-foreground/10 to-foreground/10 overflow-hidden">
+                <div className="absolute inset-0 overflow-hidden -z-10">
                     <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-secondary/80 rounded-full blur-3xl" />
                 </div>
                 <div className="max-w-7xl mx-auto  py-20">

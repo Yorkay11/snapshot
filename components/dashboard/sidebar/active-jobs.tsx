@@ -12,6 +12,8 @@ interface ActiveJob {
   status: 'running' | 'paused';
   type: 'snapshot' | 'distribution';
   estimatedTime: string;
+  exportFormat?: 'csv' | 'json';
+  rewardType?: 'uos' | 'uniq';
 }
 
 const mockActiveJobs: ActiveJob[] = [
@@ -22,6 +24,7 @@ const mockActiveJobs: ActiveJob[] = [
     status: 'running',
     type: 'snapshot',
     estimatedTime: '15 min',
+    exportFormat: 'csv'
   },
   {
     id: '2',
@@ -30,6 +33,7 @@ const mockActiveJobs: ActiveJob[] = [
     status: 'running',
     type: 'distribution',
     estimatedTime: '45 min',
+    rewardType: 'uos'
   },
   {
     id: '3',
@@ -38,6 +42,7 @@ const mockActiveJobs: ActiveJob[] = [
     status: 'running',
     type: 'distribution',
     estimatedTime: '45 min',
+    rewardType: 'uniq'
   },
 ];
 
@@ -78,11 +83,22 @@ export function ActiveJobs() {
                 </div>
               </div>
               <Badge
-                  variant="secondary"
-                  className={`bg-foreground/10 text-white w-fit`}
-                >
-                  Export CSV
-                </Badge>
+                variant="secondary"
+                className={`w-fit ${
+                  job.type === 'snapshot'
+                    ? 'bg-orange-800 text-white'
+                    : job.rewardType === 'uos'
+                      ? 'bg-green-900 text-white'
+                      : 'bg-blue-900 text-white'
+                }`}
+              >
+                {job.type === 'snapshot' 
+                  ? `Export ${job.exportFormat?.toUpperCase()}`
+                  : job.rewardType === 'uos'
+                    ? 'UOS Airdrop'
+                    : 'UNIQs Airdrop'
+                }
+              </Badge>
               <div className='flex flex-row justify-between'>
                 <span className="text-xs font-medium text-white">Progression</span>
                 <span className="text-xs font-medium text-white">{job.progress}%</span>

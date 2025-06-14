@@ -40,13 +40,13 @@ const Cta = () => {
 
     return (
         <motion.section 
-            className="relative py-32 px-4 bg-gradient-to-b from-foreground/90 to-foreground/95 overflow-hidden min-h-screen flex items-center justify-center"
+            className="relative py-32 px-4 bg-gradient-to-b from-foreground/10 to-foreground/10 overflow-hidden min-h-screen flex items-center justify-center"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariants}
         >
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden -z-10">
                 <div className="absolute -top-40 -left-40 w-80 h-80 bg-secondary/80 rounded-full blur-3xl" />
                 <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-secondary/80 rounded-full blur-3xl" />
             </div>

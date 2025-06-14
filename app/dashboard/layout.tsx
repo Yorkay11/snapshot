@@ -1,7 +1,7 @@
 import { Sidebar } from "@/components/dashboard/sidebar";
 import { RightSidebar } from "@/components/dashboard/right-sidebar";
 import { SnapshotHistory } from "@/components/dashboard/snapshot/snapshot-history";
-import Exchange from "@/components/dashboard/exchange";
+// import Exchange from "@/components/dashboard/exchange";
 import { Navbar } from "@/components/navbar";
 
 export default function DashboardLayout({
@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <Sidebar />
         </div>
 
-        <div className="flex-1 flex flex-col overflow-y-hidden animate-in slide-in-from-bottom duration-1000 delay-300">
+        <div className="flex-1 flex flex-col overflow-y-hidden animate-in slide-in-from-top duration-1000">
           <main className="flex-1 py-8 px-4 overflow-y-auto">
             {children}
           </main>

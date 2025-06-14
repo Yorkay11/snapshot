@@ -12,17 +12,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar } from "@/components/ui/avatar"
-import { Settings, LogOut, User, Wallet, Search, User2 } from "lucide-react"
+import { Settings, LogOut, User, Wallet, Search } from "lucide-react"
 import Image from "next/image"
 import { Input } from "./ui/input"
+import { useAuth } from "@/contexts/AuthContext"
+
+declare global {
+  interface Window {
+    ultra?: {
+      connect: () => Promise<string[]>;
+      disconnect: () => Promise<void>;
+    };
+  }
+}
 
 export function Navbar() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const { isAuthenticated, isConnecting, walletAddress, connectWallet, disconnectWallet } = useAuth()
 
   const navItems = [
-    { href: "/", label: "Discover" },
-    { href: "/jobs", label: "Collections" },
-    { href: "/analytics", label: "Analytics" },
+    { href: "/", label: "Home" },
+    { href: "/pricing", label: "Pricing" },
+    { href: "/faq", label: "Faq" },
+    { href: "/features", label: "Contact" },
   ]
 
   return (
@@ -79,7 +90,7 @@ export function Navbar() {
                   <DropdownMenuLabel>
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-bold text-white">Factory Manager</p>
-                      <p className="text-xs text-white">manager@ultra-times.com</p>
+                      <p className="text-xs text-white">{walletAddress?.slice(0, 6)}...{walletAddress?.slice(-4)}</p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -92,20 +103,35 @@ export function Navbar() {
                     Settings
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="bg-red-800 hover:bg-red-900">
+                  <DropdownMenuItem 
+                    className="bg-red-800 hover:bg-red-900"
+                    onClick={disconnectWallet}
+                  >
                     <LogOut className="mr-2 h-4 w-4" />
-                    Logout
+                    Disconnect Wallet
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button 
-                className="bg-secondary hover:bg-secondary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors shadow-[0_0_15px_rgba(172,70,231,0.3)] flex items-center justify-center gap-2"
-                onClick={() => setIsAuthenticated(true)}
-              >
-                <Wallet size={16} />
-                <span>Connect Wallet</span>
-              </Button>
+              <div className="flex flex-col items-end">
+                <Button 
+                  className="bg-secondary hover:bg-secondary/90 text-white px-6 py-2 rounded-full text-sm font-semibold transition-colors shadow-[0_0_15px_rgba(172,70,231,0.3)] flex items-center justify-center gap-2"
+                  onClick={connectWallet}
+                  disabled={isConnecting}
+                >
+                  {isConnecting ? (
+                    <>
+                      <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Connecting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Wallet size={16} />
+                      <span>Connect Ultra Wallet</span>
+                    </>
+                  )}
+                </Button>
+              </div>
             )}
           </div>
         </div>

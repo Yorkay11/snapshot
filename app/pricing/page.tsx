@@ -1,10 +1,12 @@
+
+
+import { Navbar } from "@/components/navbar";
 import Link from "next/link";
-import { LandingNavbar } from "@/components/landing/navbar";
 
 export default function Pricing() {
   return (
     <div className="min-h-screen bg-[#1A1A2E] text-white">
-      <LandingNavbar />
+      <Navbar />
       
       <div className="pt-20">
         {/* Hero Section */}

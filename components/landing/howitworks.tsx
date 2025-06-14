@@ -140,7 +140,7 @@ const HowItWorks = () => {
   }
 
   return (
-    <section className="py-24 bg-primary/80 relative overflow-hidden">
+    <section className="py-24 bg-primary/10 relative overflow-hidden">
       <canvas 
         ref={canvasRef} 
         className="absolute top-0 left-0 w-full h-full"

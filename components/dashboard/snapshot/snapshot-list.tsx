@@ -82,8 +82,8 @@ const mockSnapshots: Snapshot[] = [
     name: 'Snapshot Collection B',
     collection: 'Collection B',
     type: 'specific',
-    status: 'paused',
-    progress: 30,
+    status: 'completed',
+    progress: 100,
     createdAt: '2024-03-19T15:00:00Z',
     nextRun: '2024-03-20T15:00:00Z',
     cost: 12,
@@ -93,8 +93,8 @@ const mockSnapshots: Snapshot[] = [
     name: 'Snapshot Collection B',
     collection: 'Collection B',
     type: 'specific',
-    status: 'paused',
-    progress: 30,
+    status: 'completed',
+    progress: 100,
     createdAt: '2024-03-19T15:00:00Z',
     nextRun: '2024-03-20T15:00:00Z',
     cost: 12,
@@ -104,8 +104,8 @@ const mockSnapshots: Snapshot[] = [
     name: 'Snapshot Collection B',
     collection: 'Collection B',
     type: 'specific',
-    status: 'paused',
-    progress: 30,
+    status: 'completed',
+    progress: 100,
     createdAt: '2024-03-19T15:00:00Z',
     nextRun: '2024-03-20T15:00:00Z',
     cost: 12,
@@ -115,8 +115,8 @@ const mockSnapshots: Snapshot[] = [
     name: 'Snapshot Collection B',
     collection: 'Collection B',
     type: 'specific',
-    status: 'paused',
-    progress: 30,
+    status: 'completed',
+    progress: 100,
     createdAt: '2024-03-19T15:00:00Z',
     nextRun: '2024-03-20T15:00:00Z',
     cost: 12,
@@ -131,11 +131,11 @@ export function SnapshotList() {
       case 'running':
         return 'bg-[#AC46E7]';
       case 'paused':
-        return 'bg-[#8757B2]';
+        return 'bg-[#FFA500]/70';
       case 'completed':
-        return 'bg-[#622C6C]';
+        return 'bg-green-600';
       case 'failed':
-        return 'bg-[#28274A]';
+        return 'bg-red-900';
       default:
         return 'bg-[#28274A]';
     }
