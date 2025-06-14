@@ -144,68 +144,84 @@ export function SnapshotListFixed() {
   const handleAction = (id: string, action: string) => {
     console.log(`Action ${action} on snapshot ${id}`);
   };
-
   return (
     <Card className="bg-primary/20 border-none mt-20 shadow-sm shadow-secondary">
       <CardHeader>
-        <CardTitle className="text-white text-sm text-left">Jobs of snapshots on chain</CardTitle>
+        <CardTitle className
+="text-white text-sm text-left">Jobs of snapshots on chain</CardTitle>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow className="border-b border-[#28274A] hover:bg-[#28274A]/50">
-              <TableHead className="text-white">Name</TableHead>
-              <TableHead className="text-white">Collection</TableHead>
-              <TableHead className="text-white">Type</TableHead>
-              <TableHead className="text-white">Status</TableHead>
-              <TableHead className="text-white">Progress</TableHead>
-              <TableHead className="text-white">Next Run</TableHead>
-              <TableHead className="text-white">Cost (UOS)</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {snapshots.map((snapshot) => (
-              <TableRow key={snapshot.id} className="border-b border-[#28274A] hover:bg-[#28274A]/50">
-                <TableCell className="font-medium text-white">{snapshot.name}</TableCell>
-                <TableCell className="text-white">{snapshot.collection}</TableCell>
-                <TableCell className="text-white">
-                  {snapshot.type === 'full'
-                    ? 'Full Collection'
-                    : snapshot.type === 'specific'
-                    ? 'Specific Tokens'
-                    : 'By Criteria'}
-                </TableCell>
-                <TableCell>
-                  <Badge
-                    className={`${getStatusColor(snapshot.status)} text-white shadow-[0_0_10px_rgba(172,70,231,0.3)]`}
-                  >
-                    {snapshot.status === 'running'
-                      ? 'Running'
-                      : snapshot.status === 'paused'
-                      ? 'Paused'
-                      : snapshot.status === 'completed'
-                      ? 'Completed'
-                      : 'Failed'}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <div className="w-full bg-[#28274A] rounded-full h-2 shadow-[0_0_10px_rgba(98,44,108,0.3)] overflow-hidden">
-                    <div
-                      className="bg-[#AC46E7] h-2 rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(172,70,231,0.3)] relative"
-                      style={{ width: `${snapshot.progress}%` }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className="text-white">
-                  {new Date(snapshot.nextRun).toLocaleString()}
-                </TableCell>
-                <TableCell className="text-white">{snapshot.cost}</TableCell>
+        <div className="w-full overflow-x-auto">
+          <Table className="w-full text-xs sm:text-sm">
+            <TableHeader>
+              <TableRow className="border-b border-[#28274A] hover:bg-[#28274A]/50">
+                <TableHead className="text-white px-2 sm:px-4">Name</TableHead>
+                <TableHead className="text-white hidden lg:table-cell px-2 sm:px-4">Collection</TableHead>
+                <TableHead className="text-white hidden lg:table-cell px-2 sm:px-4">Type</TableHead>
+                <TableHead className="text-white px-2 sm:px-4">Status</TableHead>
+                <TableHead className="text-white px-2 sm:px-4">Progress</TableHead>
+                <TableHead className="text-white hidden lg:table-cell px-2 sm:px-4">Next Run</TableHead>
+                <TableHead className="text-white px-2 sm:px-4">Cost</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {snapshots.map((snapshot) => (
+                <TableRow key={snapshot.id} className="border-b border-[#28274A] hover:bg-[#28274A]/50">
+                  <TableCell className="font-medium text-white px-2 sm:px-4">
+                    <div className="flex flex-col">
+                      <span>{snapshot.name}</span>
+                      <span className="text-[10px] text-white/60 lg:hidden">
+                        {snapshot.collection} • {snapshot.type === 'full' ? 'Full Collection' : snapshot.type === 'specific' ? 'Specific Tokens' : 'By Criteria'}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-white hidden lg:table-cell px-2 sm:px-4">{snapshot.collection}</TableCell>
+                  <TableCell className="text-white hidden lg:table-cell px-2 sm:px-4">
+                    {snapshot.type === 'full'
+                      ? 'Full Collection'
+                      : snapshot.type === 'specific'
+                      ? 'Specific Tokens'
+                      : 'By Criteria'}
+                  </TableCell>
+                  <TableCell className="px-2 sm:px-4">
+                    <Badge
+                      className={`${getStatusColor(snapshot.status)} text-white shadow-[0_0_10px_rgba(172,70,231,0.3)] text-[10px] sm:text-xs`}
+                    >
+                      {snapshot.status === 'running'
+                        ? 'Running'
+                        : snapshot.status === 'paused'
+                        ? 'Paused'
+                        : snapshot.status === 'completed'
+                        ? 'Completed'
+                        : 'Failed'}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="px-2 sm:px-4">
+                    <div className="w-full bg-[#28274A] rounded-full h-1.5 sm:h-2 shadow-[0_0_10px_rgba(98,44,108,0.3)] overflow-hidden">
+                      <div
+                        className="bg-[#AC46E7] h-1.5 sm:h-2 rounded-full transition-all duration-300 shadow-[0_0_10px_rgba(172,70,231,0.3)] relative"
+                        style={{ width: `${snapshot.progress}%` }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-white hidden lg:table-cell px-2 sm:px-4">
+                    {new Date(snapshot.nextRun).toLocaleString()}
+                  </TableCell>
+                  <TableCell className="text-white px-2 sm:px-4">
+                    <div className="flex flex-col">
+                      <span>{snapshot.cost} UOS</span>
+                      <span className="text-[10px] text-white/60 lg:hidden">
+                        Next: {new Date(snapshot.nextRun).toLocaleDateString()}
+                      </span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
     </Card>
   );

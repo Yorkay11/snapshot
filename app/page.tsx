@@ -29,17 +29,16 @@ export default function Home() {
       <Navbar />
 
       <Header />
-
       <motion.div
-        className="relative min-h-screen flex items-center justify-center overflow-hidden py-28 bg-primary/10"
+        className="relative min-h-[80vh] md:min-h-screen flex items-center justify-center overflow-hidden py-16 md:py-28 bg-primary/10"
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
         variants={fadeIn}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/50 to-primary/20 z-10 rounded-b-full w-[110%] left-[-5%]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-foreground/50 to-primary/20 z-10 rounded-b-[50%] md:rounded-b-full w-[160%] md:w-[110%] left-[-30%] md:left-[-5%]" />
         <div className="absolute inset-0 overflow-hidden -z-10">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-secondary/80 rounded-full blur-3xl" />
+          <div className="absolute -top-20 md:-top-40 -right-20 md:-right-40 w-40 md:w-80 h-40 md:h-80 bg-secondary/80 rounded-full blur-2xl md:blur-3xl" />
         </div>
         <div className="absolute inset-0 bottom-0">
           <Image
@@ -54,14 +53,16 @@ export default function Home() {
           className="relative z-20 text-center px-4 max-w-5xl mx-auto"
           variants={fadeInUp}
         >
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-secondary to-[#8757B2] text-transparent bg-clip-text">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-secondary to-[#8757B2] text-transparent bg-clip-text leading-tight">
             Automate your snapshots and airdrops on Ultra with ease
           </h1>
-          <p className="text-xl md:text-lg mb-8 text-white/80">
+          <p className="text-base sm:text-lg md:text-xl mb-6 md:mb-8 text-white/80 max-w-3xl mx-auto">
             Save time, engage your community, and manage your token holders effortlessly
           </p>
 
-          <SnapshotListFixed />
+          <div className="w-full max-w-4xl mx-auto">
+            <SnapshotListFixed />
+          </div>
         </motion.div>
       </motion.div>
 

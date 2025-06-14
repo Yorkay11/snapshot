@@ -34,32 +34,32 @@ const Footer = () => {
             >
                 <div className="grid md:grid-cols-4 gap-8">
                     <div>
-                        <h3 className="text-lg font-semibold mb-4">Ultra-Times Snapshot</h3>
+                        <h3 className="text-lg font-semibold mb-4">UltraTimes Snapshot</h3>
                         <p className="text-white/70">
-                            The simple solution to automate your snapshots and airdrops on Ultra.
+                            The simple solution to automate your snapshots and airdrops on Ultra blockchain.
                         </p>
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
                         <ul className="space-y-2">
-                            <li><Link href="#features" className="text-white/70 hover:text-white">Features</Link></li>
-                            <li><Link href="#pricing" className="text-white/70 hover:text-white">Pricing</Link></li>
-                            <li><Link href="#faq" className="text-white/70 hover:text-white">FAQ</Link></li>
+                            <li><Link href="/" className="text-white/70 hover:text-white">Home</Link></li>
+                            <li><Link href="/contact" className="text-white/70 hover:text-white">Contact</Link></li>
+                            <li><Link href="/faq" className="text-white/70 hover:text-white">FAQ</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Legal</h3>
                         <ul className="space-y-2">
-                            <li><Link href="/terms" className="text-white/70 hover:text-white">Terms of Service</Link></li>
-                            <li><Link href="/privacy" className="text-white/70 hover:text-white">Privacy Policy</Link></li>
+                            <li><Link href="/" className="text-white/70 hover:text-white">Terms of Service</Link></li>
+                            <li><Link href="/" className="text-white/70 hover:text-white">Privacy Policy</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Contact</h3>
                         <ul className="space-y-2">
-                            <li><a href="https://twitter.com/ultratimes" className="text-white/70 hover:text-white">Twitter</a></li>
-                            <li><a href="https://discord.gg/ultratimes" className="text-white/70 hover:text-white">Discord</a></li>
-                            <li><a href="mailto:contact@ultratimes.com" className="text-white/70 hover:text-white">Email</a></li>
+                            <li><a href="https://twitter.com/" className="text-white/70 hover:text-white">Twitter</a></li>
+                            <li><a href="https://discord.gg/" className="text-white/70 hover:text-white">Discord</a></li>
+                            <li><a href="mailto:test@york.com" className="text-white/70 hover:text-white">Email</a></li>
                         </ul>
                     </div>
                 </div>

@@ -6,7 +6,7 @@ import { toast } from "sonner"
 interface UltraWalletResponse {
   status: 'success' | 'error';
   data: {
-    blockchainId: string;
+    blockchainid: string;
     // Ajoutez d'autres propriétés si nécessaire
   };
 }
@@ -55,9 +55,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       if (result.status === 'success' && result.data) {
         setIsAuthenticated(true)
-        setWalletAddress(result.data.blockchainId)
+        setWalletAddress(result.data.blockchainid)
         toast.success("Wallet Connected", {
-          description: `Successfully connected to account ${result.data.blockchainId}`,
+          description: `Successfully connected to account ${result.data.blockchainid}`,
           duration: 3000,
         })
       } else {
@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const result = await window.ultra.connect()
           if (result.status === 'success' && result.data) {
             setIsAuthenticated(true)
-            setWalletAddress(result.data.blockchainId)
+            setWalletAddress(result.data.blockchainid)
           }
         } catch (err) {
           console.error("Failed to check wallet connection:", err)
